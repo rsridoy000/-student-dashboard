@@ -115,12 +115,12 @@ echo.
 :: Launch Django server minimized in the background
 start /min "Django Backend Server" cmd /k "cd /d "%~dp0backend" && venv\Scripts\python manage.py runserver"
 
-:: Wait 2 seconds, then launch Vite dev server minimized in the background
-timeout /t 2 /nobreak >nul
+:: Wait 1 second, then launch Vite dev server minimized in the background
+timeout /t 1 /nobreak >nul
 start /min "React Frontend Server (Vite)" cmd /k "cd /d "%~dp0frontend" && npm run dev"
 
-:: Wait 5 seconds for Vite to compile & start, then open browser
-timeout /t 5 /nobreak >nul
+:: Wait 2 seconds for Vite to compile & start, then open browser
+timeout /t 2 /nobreak >nul
 start "" http://localhost:5173/
 
 echo.

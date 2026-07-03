@@ -26,3 +26,8 @@ desktop.ini
 # Gemini
 .gemini/
 .agents/
+
+# Zip submission
+student_dashboard_submission.zip
+temp_submission/
+
