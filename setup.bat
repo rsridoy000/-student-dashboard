@@ -1,5 +1,5 @@
 @echo off
-title Student Dashboard - Auto Setup & Launch
+title Student Dashboard - Auto Setup and Launch
 color 0A
 
 echo.
@@ -14,7 +14,7 @@ echo.
 :: ──────────────────────────────────────
 echo [1/5] Checking Python installation...
 python --version >nul 2>&1
-if %errorlevel% neq 0 (
+if errorlevel 1 (
     echo  ERROR: Python is not installed or not in PATH.
     echo  Please install Python 3.9+ from https://www.python.org/downloads/
     pause
@@ -27,7 +27,7 @@ echo  OK - Python found.
 :: ──────────────────────────────────────
 echo [2/5] Checking Node.js installation...
 node --version >nul 2>&1
-if %errorlevel% neq 0 (
+if errorlevel 1 (
     echo  ERROR: Node.js is not installed or not in PATH.
     echo  Please install Node.js from https://nodejs.org/
     pause
@@ -42,22 +42,24 @@ echo.
 echo [3/5] Setting up Django backend...
 cd /d "%~dp0backend"
 
-if not exist "venv" (
-    echo  Creating Python virtual environment...
-    python -m venv venv
-    if %errorlevel% neq 0 (
-        echo  ERROR: Could not create virtual environment.
-        pause
-        exit /b 1
-    )
-    echo  Virtual environment created.
-) else (
+if exist "venv" (
     echo  Virtual environment already exists. Skipping creation.
+    goto skip_venv
 )
 
+echo  Creating Python virtual environment...
+python -m venv venv
+if errorlevel 1 (
+    echo  ERROR: Could not create virtual environment.
+    pause
+    exit /b 1
+)
+echo  Virtual environment created.
+
+:skip_venv
 echo  Installing Python dependencies...
 call venv\Scripts\pip install -r requirements.txt --quiet
-if %errorlevel% neq 0 (
+if errorlevel 1 (
     echo  ERROR: Failed to install Python dependencies.
     pause
     exit /b 1
@@ -79,18 +81,21 @@ echo.
 echo [4/5] Setting up React frontend...
 cd /d "%~dp0frontend"
 
-if not exist "node_modules" (
-    echo  Installing npm packages (this may take a moment)...
-    call npm install --silent
-    if %errorlevel% neq 0 (
-        echo  ERROR: Failed to install npm packages.
-        pause
-        exit /b 1
-    )
-    echo  npm packages installed.
-) else (
+if exist "node_modules" (
     echo  node_modules already exists. Skipping npm install.
+    goto skip_npm
 )
+
+echo  Installing npm packages (this may take a moment)...
+call npm install --silent
+if errorlevel 1 (
+    echo  ERROR: Failed to install npm packages.
+    pause
+    exit /b 1
+)
+echo  npm packages installed.
+
+:skip_npm
 
 :: ──────────────────────────────────────
 :: Step 5: Launch both servers
