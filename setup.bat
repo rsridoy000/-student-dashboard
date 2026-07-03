@@ -112,15 +112,15 @@ echo  Both servers are starting in separate windows.
 echo  Close those windows to stop the servers.
 echo.
 
-:: Launch Django server in a new terminal window
-start "Django Backend Server" cmd /k "cd /d "%~dp0backend" && venv\Scripts\python manage.py runserver"
+:: Launch Django server minimized in the background
+start /min "Django Backend Server" cmd /k "cd /d "%~dp0backend" && venv\Scripts\python manage.py runserver"
 
-:: Wait 2 seconds, then launch Vite dev server
+:: Wait 2 seconds, then launch Vite dev server minimized in the background
 timeout /t 2 /nobreak >nul
-start "React Frontend Server (Vite)" cmd /k "cd /d "%~dp0frontend" && npm run dev"
+start /min "React Frontend Server (Vite)" cmd /k "cd /d "%~dp0frontend" && npm run dev"
 
-:: Wait 3 seconds for Vite to start, then open browser
-timeout /t 3 /nobreak >nul
+:: Wait 5 seconds for Vite to compile & start, then open browser
+timeout /t 5 /nobreak >nul
 start "" http://localhost:5173/
 
 echo.
