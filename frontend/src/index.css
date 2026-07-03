@@ -705,7 +705,7 @@ body {
   font-size: 0.78rem;
 }
 
-.info-label  { color: var(--text-dim); font-weight: 500; font-family: var(--font-mono); }
+.info-label  { color: var(--text-mid); font-weight: 500; font-family: var(--font-mono); }
 .info-value  { font-weight: 700; color: var(--text-bright); font-family: var(--font-mono); }
 
 .cgpa-val {
@@ -732,7 +732,7 @@ body {
   align-items: center;
 }
 
-.method-title { color: var(--text-dim); font-style: italic; }
+.method-title { color: var(--text-mid); font-style: italic; }
 
 .active-indicator {
   display: flex;
@@ -759,7 +759,7 @@ body {
   box-shadow: 0 0 4px rgba(0,255,136,0.4);
 }
 
-.inactive-dot { color: var(--text-dim); font-weight: 600; }
+.inactive-dot { color: var(--text-mid); font-weight: 600; }
 
 .iife-badge          { font-weight: 700; font-size: 0.68rem; }
 .iife-badge.active   { color: var(--neon-aqua); text-shadow: 0 0 6px rgba(0,229,255,0.3); }
