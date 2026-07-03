@@ -403,7 +403,7 @@ body {
   background: #0A0A0A;
 }
 
-.form-input::placeholder { color: #888888; }
+.form-input::placeholder { color: #b5b5b5; }
 
 /* Checkbox */
 .checkbox-group { margin-top: 0.1rem; }
