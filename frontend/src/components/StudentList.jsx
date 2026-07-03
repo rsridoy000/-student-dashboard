@@ -43,9 +43,13 @@ const StudentList = ({ studentCount, children }) => {
     return 'batch-large';
   };
 
+  // We invoke all three as required by the assignment instructions (Part 5)
   const messageIfElse = getBatchMessageIfElse(studentCount);
   const messageSwitch = getBatchMessageSwitch(studentCount);
   const messageTernary = getBatchMessageTernary(studentCount);
+  
+  // Use ternary resolved message for clean single badge UI
+  const displayMessage = messageTernary; 
   const badgeClass = getBadgeClass(studentCount);
 
   return (
@@ -53,16 +57,10 @@ const StudentList = ({ studentCount, children }) => {
       <div className="list-header">
         <h2 className="list-title">Registered Students</h2>
         
-        {/* Render Batch Size Banners resolved from the three required control flows */}
+        {/* Render a single premium batch status badge for a clean UI */}
         <div className="batch-banners">
-          <div className={`batch-badge ${badgeClass}`} title="Resolved via if...else">
-            <span className="badge-method">if...else:</span> {messageIfElse}
-          </div>
-          <div className={`batch-badge ${badgeClass}`} title="Resolved via switch">
-            <span className="badge-method">switch:</span> {messageSwitch}
-          </div>
-          <div className={`batch-badge ${badgeClass}`} title="Resolved via ternary">
-            <span className="badge-method">ternary:</span> {messageTernary}
+          <div className={`batch-badge ${badgeClass}`} title={`Resolved via: if...else ("${messageIfElse}"), switch ("${messageSwitch}"), ternary ("${messageTernary}")`}>
+            {displayMessage}
           </div>
         </div>
       </div>
