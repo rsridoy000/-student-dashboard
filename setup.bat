@@ -15,12 +15,24 @@ echo.
 echo [1/5] Checking Python installation...
 python --version >nul 2>&1
 if errorlevel 1 (
-    echo  ERROR: Python is not installed or not in PATH.
-    echo  Please install Python 3.9+ from https://www.python.org/downloads/
-    pause
-    exit /b 1
+    echo  Python is missing. Attempting to install Python automatically...
+    winget install -e --id Python.Python.3.11 --silent --accept-package-agreements --accept-source-agreements
+    
+    echo  Refreshing system environment...
+    for /f "tokens=2*" %%A in ('reg query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v Path') do set "syspath=%%B"
+    for /f "tokens=2*" %%A in ('reg query "HKCU\Environment" /v Path 2^>nul') do set "userpath=%%B"
+    set "PATH=%syspath%;%userpath%"
+    
+    python --version >nul 2>&1
+    if errorlevel 1 (
+        echo  ERROR: Python is still not recognized. Please install manually or restart your computer.
+        pause
+        exit /b 1
+    )
+    echo  Python installed and loaded successfully!
+) else (
+    echo  OK - Python found.
 )
-echo  OK - Python found.
 
 :: ──────────────────────────────────────
 :: Step 2: Check Node.js
@@ -28,12 +40,24 @@ echo  OK - Python found.
 echo [2/5] Checking Node.js installation...
 node --version >nul 2>&1
 if errorlevel 1 (
-    echo  ERROR: Node.js is not installed or not in PATH.
-    echo  Please install Node.js from https://nodejs.org/
-    pause
-    exit /b 1
+    echo  Node.js is missing. Attempting to install Node.js automatically...
+    winget install -e --id OpenJS.NodeJS.LTS --silent --accept-package-agreements --accept-source-agreements
+    
+    echo  Refreshing system environment...
+    for /f "tokens=2*" %%A in ('reg query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v Path') do set "syspath=%%B"
+    for /f "tokens=2*" %%A in ('reg query "HKCU\Environment" /v Path 2^>nul') do set "userpath=%%B"
+    set "PATH=%syspath%;%userpath%"
+    
+    node --version >nul 2>&1
+    if errorlevel 1 (
+        echo  ERROR: Node.js is still not recognized. Please install manually or restart your computer.
+        pause
+        exit /b 1
+    )
+    echo  Node.js installed and loaded successfully!
+) else (
+    echo  OK - Node.js found.
 )
-echo  OK - Node.js found.
 
 :: ──────────────────────────────────────
 :: Step 3: Backend - Create venv if needed
